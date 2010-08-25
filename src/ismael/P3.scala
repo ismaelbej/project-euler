@@ -1,13 +1,13 @@
 package ismael
 
 object P3 {
-	val Num:BigInt = BigInt("600851475143")
-	def genDivisors(N: BigInt): List[BigInt] = {
-		def removeDiv(n: BigInt, d: BigInt): BigInt = {
+	val Num: Long = 600851475143L
+	def genDivisors(N: Long): List[Long] = {
+		def removeDiv(n: Long, d: Long): Long = {
 			if (n%d != 0) n
 			else removeDiv(n/d, d)
 		}
-		def genDivFrom(n: BigInt, d: BigInt): List[BigInt] = {
+		def genDivFrom(n: Long, d: Long): List[Long] = {
 			if (d > n) Nil
 			else if (n%d == 0) d :: genDivFrom(removeDiv(n, d), d+1)
 			else genDivFrom(n, d+1)
@@ -18,3 +18,4 @@ object P3 {
 		println(genDivisors(Num) max)
 	}
 }
+
