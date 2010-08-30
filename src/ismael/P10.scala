@@ -14,6 +14,6 @@ object P10 {
 			n+=1
 		}
 		val primes = for (n <- 2 to N-1 if !sieve(n)) yield n
-		println((BigInt(0) /: primes) {_+_})
+		println((0L /: primes) {_+_})
 	}
 }
