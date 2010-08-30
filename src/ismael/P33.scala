@@ -17,6 +17,6 @@ object P33 {
 		val frac = for (a <- 1 to 8; d <- a+1 to 9 if isNonTrivialFrac(a, d)) yield (a,d)
 		val (num, denom) = ((1,1) /: frac) {(x, y) => (x._1* y._1, x._2*y._2)}
 		val d = dcm(num, denom)
-		println(num, denom, denom/d)
+		println(denom/d)
 	}
 }
