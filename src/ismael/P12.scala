@@ -1,13 +1,7 @@
 package ismael
 
 object P12 {
-	def power(a: Int, n: Int): Int = {
-		def powerRec(p: Int, n: Int): Int = {
-			if (n==0) p
-			else powerRec(p*a, n-1)
-		}
-		powerRec(1, n)
-	}
+	def power(a: Int, n: Int): Int = (1 /: List.fill(n)(a)) {_*_}
 	def countMaxDiv(n: Int, d: Int): Int = {
 		def countMaxDivRec(n: Int, c: Int): Int = {
 			if (n%d != 0) c
@@ -17,7 +11,8 @@ object P12 {
 	}
 	def countDiv(n: Int): Int = {
 		def countDivRec(n: Int, p: Int, d: Int): Int = {
-			if (n < d) p
+			if (n == 1) p
+			else if (d*d > n) 2*p
 			else
 			{
 				val k = countMaxDiv(n, d)
@@ -32,6 +27,6 @@ object P12 {
 	val naturalNumbers: Stream[Int] = Stream.cons(1, naturalNumbers map {_+1}) 
 	val triangleNumbers = Stream.cons(1, makeTriangleNumbers(naturalNumbers tail))
 	def run(args: Array[String]): Unit = {
-		println(triangleNumbers filter {countDiv(_) > 500} take 1 toList)
+		println(triangleNumbers filter {countDiv(_) > 500} head)
 	}
 }
