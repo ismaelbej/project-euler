@@ -8,7 +8,8 @@ object P3 {
 			else removeDiv(n/d, d)
 		}
 		def genDivFrom(n: Long, d: Long): List[Long] = {
-			if (d > n) Nil
+			if (n == 1) Nil
+			else if (d*d > n) List(n)
 			else if (n%d == 0) d :: genDivFrom(removeDiv(n, d), d+1)
 			else genDivFrom(n, d+1)
 		}
