@@ -8,10 +8,9 @@ object P2 {
 		}
 		genFibSeq(1, 1)
 	}
-	def filterSeq(seq: List[Int]): List[Int] = {
-		for (n <- seq if n%2 == 0) yield n
-	}
+	val Max = 4000000
+	val evenFib = genFibLessThan(Max) filter {_%2 == 0}
 	def run(args: Array[String]): Unit = {
-		println((0 /: filterSeq(genFibLessThan(4000000))) {_ + _})
+		println((0 /: evenFib) {_ + _})
 	}
 }
