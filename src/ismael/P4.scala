@@ -13,13 +13,9 @@ object P4 {
 	def makePalindrome(n: Int): Int = {
 		return n * 1000 + makeReverse(n)
 	}
-	def genPalindromes(): List[Int] = {
-		for (n <- List.range(999, 100, -1)) yield makePalindrome(n)
-	}
-	def genList(): List[Int] = {
-		for (n <- genPalindromes() if isThreeDigitProduct(n)) yield n 
-	}
+	val palindromes: List[Int] = List.range(999, 100, -1) map {makePalindrome(_)}
+	val threeDigitProduct = palindromes filter {isThreeDigitProduct(_)}  
 	def run(args: Array[String]): Unit = {
-		println(genList().apply(0))
+		println(threeDigitProduct head)
 	}
 }
