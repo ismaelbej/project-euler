@@ -8,6 +8,7 @@ object P29 {
 			def isPowerOfRec(a: Int): Boolean = {
 				if (a > n) false
 				else if (a == n) true
+				else if (n%a != 0) false
 				else isPowerOfRec(a*b)
 			}
 			isPowerOfRec(b*b)
@@ -19,7 +20,7 @@ object P29 {
 	val bases: Stream[Int] = 2 #:: bases.map(nextNonPower)
 	def power(b: Int, e: Int): Int = (1 /: List.fill(e)(b)) {_*_}
 	def countForBase(b: Int): Int =	{
-		def genExponents(n: Int) = List.range(2*n, 100*n+1, n)
+		def genExponents(n: Int) = List.range(2*n, MaxExp*n+1, n)
 		val exps = Stream.from(1).takeWhile(x => power(b, x) <= MaxBase).flatMap(genExponents)
 		(exps toSet).size
 	}
