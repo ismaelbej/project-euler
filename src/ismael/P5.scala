@@ -1,13 +1,11 @@
 package ismael
 
 object P5 {
-	def dcm(n: Int, d: Int) : Int = {
-		if (d==0) n
-		else dcm(d, n%d)
+	def dcm(n: Int, d: Int): Int = d match {
+		case 0 => n
+		case _ => dcm(d, n%d)
 	}
-	def mcm(n: Int, d: Int) : Int = {
-		n / dcm(n, d) * d
-	}
+	def mcm(n: Int, d: Int): Int = n / dcm(n, d) * d
 	def genDivisibleBetween(from: Int, to: Int): Int = {
 		def makeDivisible(n: Int, d: Int): Int = {
 			if (d < from) n
