@@ -28,7 +28,7 @@ object P41 {
     	r toList
 	}
 	def isPrime(j: Int): Boolean = primes takeWhile {x => x*x <= j} forall {j%_!=0}
-	def nextPrime(i: Int): Int = Stream.from(i + 1).find(isPrime).get
+	def nextPrime(i: Int): Int = Stream.from(i + 1) find isPrime get
 	val primes: Stream[Int] = 2 #:: primes.map(nextPrime)
 	def makeNumber(l: List[Int]): Int = {
 		def makeNumberRec(n: Int, l: List[Int]): Int = l match {
@@ -39,8 +39,8 @@ object P41 {
 	}
 	val pandigitalSequences: Stream[List[Int]] = List(7, 6, 5, 4, 3, 2, 1) #:: pandigitalSequences.map(prevSequence)
 	val pandigital = pandigitalSequences map makeNumber
+	val pandigitalPrimes = pandigital filter isPrime
 	def run(args: Array[String]): Unit = {
-		
-		println(pandigital dropWhile {x => !isPrime(x)} head)
+		println(pandigitalPrimes head)
 	}
 }
