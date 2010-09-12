@@ -35,33 +35,34 @@ object P38 {
   }
   val pandigitalSequences: Stream[List[Int]] = List(9, 8, 7, 6, 5, 4, 3, 2, 1) #:: pandigitalSequences.map(prevSequence)
   val pandigital = pandigitalSequences map makeNumber
-  def getFirstDigits(n: Int, d: Int): Int = {
-    val e = countDigits(n)
-    val b = power(10, e - d)
-    n / b
+  def splitDigits(n: Int, d: Int): (Int, Int) = {
+    val r = power(10, d)
+    (n/r, n%r)
   }
   def countDigits(n: Int): Int = n match {
     case 0 => 0
     case _ => 1+countDigits(n/10)
   }
   def power(b: Int, e: Int): Int = (1 /: List.fill(e)(b)) {_*_}
-  def getValidSeeds(n: Int): List[Int] = List.range(1, 5) map {getFirstDigits(n, _)}
-  def genPalindromic(n: Int): List[Int] = {
-    def genPalindromicRec(a: Int, c: Int, d: Int): List[Int] = {
-      val b = n*c
-      val e = countDigits(b)
-      val q = a*power(10, e) + b
-      if (d+e == 9) List(q)
-      else if (d+e > 9) Nil
-      else genPalindromicRec(q, c+1, d+e)
+  def isPandigitalWith(n: Int, d: Int): Boolean = {
+    val (m, r) = splitDigits(n, 9-d)
+    def isPandigitalWithRec(c: Int, r: Int, d: Int): Boolean = {
+      if (r == 0) true
+      else {
+        val o = m * c
+        val e = countDigits(o)
+        val (oo, rr) = splitDigits(r, d-e)
+        if (oo != o) false
+        else isPandigitalWithRec(c+1, rr, d-e)
+      }
     }
-    genPalindromicRec(n, 2, countDigits(n))
+    isPandigitalWithRec(2, r, 9-d)
   }
   def isPandigitalProduct(n: Int): Boolean = {
-    getValidSeeds(n) flatMap genPalindromic exists {_ == n}
+    1 to 4 exists {isPandigitalWith(n, _)}
   }
-  val pandigitalProduct = pandigital filter isPandigitalProduct
+  val pandigitalProducts = pandigital filter isPandigitalProduct
   def run(args: Array[String]): Unit = {
-    println(pandigitalProduct head)
+    println(pandigitalProducts head)
   }
 }
