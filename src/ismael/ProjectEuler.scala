@@ -12,6 +12,24 @@ object ProjectEuler {
     }
     powerRec(numeric.one, base, ex)
   }
+  // esta definicion es redundante en vista de la definicion de arriba
+  // pero asi no tengo que crear una clase ModInteger
+  def powerMod(b: Long, ex: Long, M: Long): Long = {
+    def powerModRec(p: Long, b: Long, ex: Long): Long = ex match {
+      case 0 => p
+      case _ => {
+        val bb = (BigInt(b) * b) % M        
+        if ((ex&1)==0) {
+          powerModRec(p, bb toLong, ex/2)
+        }
+        else {
+          val pb = (BigInt(p) * b) % M
+          powerModRec(pb toLong, bb toLong, ex/2)
+        }
+      }
+    }
+    powerModRec(1, b%M, ex) 
+  }
 
   // primes
   def isPrime(j: Int): Boolean = primes takeWhile {x => x*x <= j} forall {j%_ != 0}
