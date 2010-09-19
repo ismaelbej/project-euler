@@ -36,6 +36,25 @@ object ProjectEuler {
   def nextPrime(i: Int): Int = Stream.from(i+2, 2) find isPrime get
   val primes: Stream[Int] = 2 #:: 3 #:: primes.tail.map(nextPrime)
 
+  def factor(n: Int): List[(Int, Int)] = {
+    def reduceDiv(c: Int, m: Int, d: Int): (Int, Int) = {
+      if (m % d != 0) (c, m)
+      else reduceDiv(c + 1, m / d, d)
+    }
+    def factorize(n: Int, d: Stream[Int]): List[(Int, Int)] = {
+      val h = d.head
+      if (n == 1) Nil
+      else if (h*h > n) List((n, 1))
+      else {
+        val (c, m) = reduceDiv(0, n, h)
+        if (c > 0) (h, c) :: factorize(m, d.tail)
+        else factorize(n, d.tail)
+      }
+    }
+    factorize(n, primes)
+  }
+
+  //
   def countDigits(p: Int): Int = p match {
     case 0 => 0
     case _ => 1 + countDigits(p/10)
