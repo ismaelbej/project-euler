@@ -54,10 +54,16 @@ object ProjectEuler {
     factorize(n, primes)
   }
 
-  //
+  // contar digitos
   def countDigits(p: Int): Int = p match {
     case 0 => 0
     case _ => 1 + countDigits(p/10)
+  }
+
+  // divisor comun minimo
+  def dcm(a: Int, b: Int): Int = b match {
+    case 0 => a
+    case _ => dcm(b, a%b)
   }
 
   // permutations
