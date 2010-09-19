@@ -32,7 +32,10 @@ object ProjectEuler {
   }
 
   // primes
-  def isPrime(j: Int): Boolean = primes takeWhile {x => x*x <= j} forall {j%_ != 0}
+  def isPrime[T](j: T)(implicit integral: Integral[T]): Boolean = {
+    def square(x: Int): T = integral.times(integral.fromInt(x), integral.fromInt(x))
+    primes takeWhile {x => integral.lteq(square(x), j)} forall {x => integral.rem(j, integral.fromInt(x)) != 0}
+  }
   def nextPrime(i: Int): Int = Stream.from(i+2, 2) find isPrime get
   val primes: Stream[Int] = 2 #:: 3 #:: primes.tail.map(nextPrime)
 
@@ -61,9 +64,9 @@ object ProjectEuler {
   }
 
   // divisor comun minimo
-  def dcm(a: Int, b: Int): Int = b match {
+  def dcm[T](a: T, b: T)(implicit integral: Integral[T]): T = b match {
     case 0 => a
-    case _ => dcm(b, a%b)
+    case _ => dcm(b, integral.rem(a, b))
   }
 
   // permutations
