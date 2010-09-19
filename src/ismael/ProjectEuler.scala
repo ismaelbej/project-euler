@@ -62,4 +62,13 @@ object ProjectEuler {
     adjustArray(src, i, j) 
     true
   }
+
+  // time
+  def time[T](x : => T) =  {
+    val start = System.nanoTime : Double
+    val result = x
+    val duration = (System.nanoTime : Double) - start
+    println("Elapsed time " + duration / 1000000.0 + " msecs")
+    result
+  }
 }
