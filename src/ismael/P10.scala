@@ -1,9 +1,11 @@
 package ismael
 
+import ProjectEuler._
+
 object P10 {
   val N = 2000000
-  val primesBelowN = ProjectEuler.primes takeWhile {_<=N} map {_.toLong}
+  val primesBelowN = primes takeWhile {_<=N}
   def run(args: Array[String]): Unit = {
-    println(primesBelowN sum)
+    println(primesBelowN.foldLeft(0L) {_+_})
   }
 }
