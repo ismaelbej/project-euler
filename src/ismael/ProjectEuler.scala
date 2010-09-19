@@ -36,6 +36,11 @@ object ProjectEuler {
   def nextPrime(i: Int): Int = Stream.from(i+2, 2) find isPrime get
   val primes: Stream[Int] = 2 #:: 3 #:: primes.tail.map(nextPrime)
 
+  def countDigits(p: Int): Int = p match {
+    case 0 => 0
+    case _ => 1 + countDigits(p/10)
+  }
+
   // permutations
   def adjustArray[T](src: Array[T], i: Int, j: Int) {
     var tmp = src(i)
