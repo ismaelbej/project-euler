@@ -1,7 +1,9 @@
 package ismael
 
+import ProjectEuler._
+
 object P13 {
-	val numbers = """37107287533902102798797998220837590246510135740250
+  val numbers = """37107287533902102798797998220837590246510135740250
 46376937677490009712648124896970078050417018260538
 74324986199524741059474233309513058123726617309629
 91942213363574161572522430563301811072406154908250
@@ -101,18 +103,17 @@ object P13 {
 72107838435069186155435662884062257473692284509516
 20849603980134001723930671666823555245252804609722
 53503534226472524250874054075591789781264330331690"""
-	def power(b: BigInt, d: Int) = (BigInt(1) /: List.fill(d)(b)) {_*_}
-	def getFirstDigits(n: BigInt, d: Int): BigInt = {
-		val maxVal = power(10, d)
-		def getFirstDigitsRec(n: BigInt): BigInt = {
-			if (n < maxVal) n
-			else getFirstDigitsRec(n/10)
-		}
-		getFirstDigitsRec(n)
-	}
-	def run(args: Array[String]): Unit = {
-		val t = numbers.split('\n') map { BigInt(_)}
-		val sum = (BigInt(0) /: t) {_+_}
-		println(getFirstDigits(sum, 10))
-	}
+  def getFirstDigits(n: BigInt, d: Int): BigInt = {
+    val maxVal = power(BigInt(10), d)
+    def getFirstDigitsRec(n: BigInt): BigInt = {
+      if (n < maxVal) n
+      else getFirstDigitsRec(n/10)
+    }
+    getFirstDigitsRec(n)
+  }
+  def run(args: Array[String]): Unit = {
+    val t = numbers.split('\n') map {BigInt(_)}
+    val sum = (BigInt(0) /: t) {_+_}
+    println(getFirstDigits(sum, 10))
+  }
 }
