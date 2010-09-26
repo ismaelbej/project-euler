@@ -59,9 +59,9 @@ object ProjectEuler {
   }
 
   // contar digitos
-  def countDigits(p: Int): Int = p match {
+  def countDigits[T](n: T)(implicit integral: Integral[T]): Int = n match {
     case 0 => 0
-    case _ => 1 + countDigits(p/10)
+    case _ => 1 + countDigits(integral.quot(n, integral.fromInt(10)))
   }
 
   // divisor comun minimo
