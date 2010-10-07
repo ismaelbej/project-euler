@@ -1,7 +1,7 @@
 package ismael
 
 object P11 {
-	val s = """08 02 22 97 38 15 00 40 00 75 04 05 07 78 52 12 50 77 91 08
+  val s = """08 02 22 97 38 15 00 40 00 75 04 05 07 78 52 12 50 77 91 08
 49 49 99 40 17 81 18 57 60 87 17 40 98 43 69 48 04 56 62 00
 81 49 31 73 55 79 14 29 93 71 40 67 53 88 30 03 49 13 36 65
 52 70 95 23 04 60 11 42 69 24 68 56 01 32 56 71 37 02 36 91
@@ -21,65 +21,61 @@ object P11 {
 20 69 36 41 72 30 23 88 34 62 99 69 82 67 59 85 74 04 36 16
 20 73 35 29 78 31 90 01 74 31 49 71 48 86 81 16 23 57 05 54
 01 70 54 71 83 51 54 69 16 92 33 48 61 43 52 01 89 19 67 48"""
-	def matrixFromString(s: String): Array[Array[Int]] = {
-		s.split('\n') map {_.split(' ') map {_.toInt}}
-	}
-	def maxProduct(a: Array[Int]): Int = {
-		def genGroups(a: List[Int]): List[List[Int]] = {
-			if (a.length < 4) Nil
-			else (a take 4) :: genGroups(a.tail)
-		}
-		val l = genGroups(a toList) map (x => (1 /: x) {_*_})
-		if (l.isEmpty) 0
-		else l max
-	}
-	def findMaxProductH(m: Array[Array[Int]]): Int = {
-		(for (row <- m) yield maxProduct(row)) max  
-	}
-	def getColumns(m: Array[Array[Int]]): Array[Array[Int]] = {
-		(for (c <- 1 to m(0).length) yield m map {_(c-1)}) toArray
-	}
-	def findMaxProductV(m: Array[Array[Int]]): Int = {
-		(for (col <- getColumns(m)) yield maxProduct(col)) max
-	}
-	def getDiagonals(m: Array[Array[Int]]): Array[Array[Int]] = {
-		val rows = m.length
-		val p = rows+rows-2
-		def getDiagonalSum(m: Array[Array[Int]], s: Int): Array[Int] = {
-			if (s < rows)
-			{
-				(for (x <- 0 to rows-1 if (s-x>=0)) yield m(x)(s-x)) toArray
-			}
-			else
-			{
-				(for (y <- 0 to rows-1 if (s-y<rows)) yield m(s-y)(y)) toArray				
-			}
-		}
-		(for (n <- 0 to p) yield getDiagonalSum(m, n)) toArray
-	}
-	def findMaxProductD(m: Array[Array[Int]]): Int = {
-		(for (col <- getDiagonals(m)) yield maxProduct(col)) max
-	}
-	def getInvDiagonals(m: Array[Array[Int]]): Array[Array[Int]] = {
-		val rows = m.length
-		def getDiagonalDif(m: Array[Array[Int]], d: Int): Array[Int] = {
-			if (d >= 0)
-			{
-				(for (x <- 0 to rows-1 if (d+x<rows)) yield m(x)(d+x)) toArray
-			}
-			else
-			{
-				(for (y <- 0 to rows-1 if (d+y>=0)) yield m(y)(d+y)) toArray				
-			}
-		}
-		(for (n <- -rows+1 to rows-1) yield getDiagonalDif(m, n)) toArray
-	}
-	def findMaxProductDI(m: Array[Array[Int]]): Int = {
-		(for (col <- getInvDiagonals(m)) yield maxProduct(col)) max
-	}
-	def run(args: Array[String]): Unit = {
-		val matrix = matrixFromString(s)
-		val maxes = List(findMaxProductH(matrix), findMaxProductV(matrix), findMaxProductD(matrix), findMaxProductDI(matrix))
-		println(maxes max);
-	}
+  def matrixFromString(s: String): Array[Array[Int]] = {
+    s.split('\n') map {_.split(' ') map {_.toInt}}
+  }
+  def maxProduct(a: Array[Int]): Int = {
+    def genGroups(a: List[Int]): List[List[Int]] = {
+      if (a.length < 4) Nil
+      else (a take 4) :: genGroups(a.tail)
+    }
+    val l = genGroups(a toList) map (x => (1 /: x) {_ * _})
+    if (l.isEmpty) 0
+    else l max
+  }
+  def findMaxProductH(m: Array[Array[Int]]): Int = {
+    (for (row <- m) yield maxProduct(row)) max  
+  }
+  def getColumns(m: Array[Array[Int]]): Array[Array[Int]] = {
+    (for (c <- 1 to m(0).length) yield m map {_(c - 1)}) toArray
+  }
+  def findMaxProductV(m: Array[Array[Int]]): Int = {
+    (for (col <- getColumns(m)) yield maxProduct(col)) max
+  }
+  def getDiagonals(m: Array[Array[Int]]): Array[Array[Int]] = {
+    val rows = m.length
+    val p = rows + rows - 2
+    def getDiagonalSum(m: Array[Array[Int]], s: Int): Array[Int] = {
+      if (s < rows) {
+	(for (x <- 0 to rows-1 if (s-x>=0)) yield m(x)(s-x)) toArray
+      }
+      else {
+	(for (y <- 0 to rows-1 if (s-y<rows)) yield m(s-y)(y)) toArray
+      }
+    }
+    (for (n <- 0 to p) yield getDiagonalSum(m, n)) toArray
+  }
+  def findMaxProductD(m: Array[Array[Int]]): Int = {
+    (for (col <- getDiagonals(m)) yield maxProduct(col)) max
+  }
+  def getInvDiagonals(m: Array[Array[Int]]): Array[Array[Int]] = {
+    val rows = m.length
+    def getDiagonalDif(m: Array[Array[Int]], d: Int): Array[Int] = {
+      if (d >= 0) {
+        (for (x <- 0 to rows-1 if (d+x<rows)) yield m(x)(d+x)) toArray
+      }
+      else {
+        (for (y <- 0 to rows-1 if (d+y>=0)) yield m(y)(d+y)) toArray
+      }
+    }
+    (for (n <- -rows+1 to rows-1) yield getDiagonalDif(m, n)) toArray
+  }
+  def findMaxProductDI(m: Array[Array[Int]]): Int = {
+    (for (col <- getInvDiagonals(m)) yield maxProduct(col)) max
+  }
+  def run(args: Array[String]): Unit = {
+    val matrix = matrixFromString(s)
+    val maxes = List(findMaxProductH(matrix), findMaxProductV(matrix), findMaxProductD(matrix), findMaxProductDI(matrix))
+    println(maxes max);
+  }
 }
