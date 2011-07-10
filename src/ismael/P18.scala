@@ -16,20 +16,19 @@ object P18 {
 91 71 52 38 17 14 91 43 58 50 27 29 48
 63 66 04 68 89 53 67 30 73 16 69 87 40 31
 04 62 98 27 23 09 70 98 73 93 38 53 60 04 23"""
-  def makePyramid(s: String): Array[Array[Int]] = s.split('\n') map {_.split(' ') map {_.toInt}}
+  def makeList(s: String): List[Int] = s split(' ') map {_ toInt} toList
+  def makePyramid(s: String): List[List[Int]] = s split('\n') map makeList toList
   val pyramid = makePyramid(pyramidString)
-  def sumPos(t: Array[Int], b: Array[Int], n: Int): Int = {
-    if (n == 1) b(n - 1) + t(0)
-    else if (n == b.length) b(n - 1) + t(n - 2)
-    else b(n - 1) + List(t(n - 2), t(n - 1)).max
+  def makeMaxRow(t: List[Int]): List[Int] = {
+    0 :: t zip t ::: List(0) map {x => x._1 max x._2}
   }
-  def addRows(t: Array[Int], b: Array[Int]): Array[Int] = {
-    (for (n <- 1 to b.length) yield sumPos(t, b, n)) toArray
+  def addRows(t: List[Int], b: List[Int]): List[Int] = {
+    makeMaxRow(t) zip b map {x => x._1 + x._2}
   }
-  def findMaxPyramid(a: Array[Array[Int]]): Int = {
-    def addPyramidRows(h: Array[Int], a: Array[Array[Int]]): Array[Int] = {
-      if (a.isEmpty) h
-      else addPyramidRows(addRows(h, a.head), a.tail)
+  def findMaxPyramid(a: List[List[Int]]): Int = {
+    def addPyramidRows(q: List[Int], a: List[List[Int]]): List[Int] = a match {
+      case h :: t => addPyramidRows(addRows(q, h), t)
+      case _ => q
     }
     addPyramidRows(a head, a tail) max
   }
